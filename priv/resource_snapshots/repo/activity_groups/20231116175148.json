@@ -16,7 +16,7 @@
       "type": "text",
       "source": "title",
       "references": null,
-      "allow_nil?": false,
+      "allow_nil?": true,
       "generated?": false,
       "primary_key?": false
     },
@@ -24,22 +24,22 @@
       "default": "nil",
       "size": null,
       "type": "text",
-      "source": "content",
+      "source": "description",
       "references": null,
       "allow_nil?": true,
       "generated?": false,
       "primary_key?": false
     }
   ],
-  "table": "posts",
-  "hash": "C3564275C9541DD51EFDC4A522F7243C26DF5A3CE328EC795D9623CDF5939277",
+  "table": "activity_groups",
+  "hash": "7AC64DA6286F68CED88A0E2CD476308F083B5472F6CBFE3DF45D9EAB320EB90F",
   "repo": "Elixir.AshActivityPlanner.Repo",
   "identities": [],
   "schema": null,
   "multitenancy": {
     "global": null,
-    "attribute": null,
-    "strategy": null
+    "strategy": null,
+    "attribute": null
   },
   "base_filter": null,
   "check_constraints": [],

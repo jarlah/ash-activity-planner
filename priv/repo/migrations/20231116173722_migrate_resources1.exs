@@ -1,4 +1,4 @@
-defmodule AshActivityPlanner.Repo.Migrations.InitialMigration do
+defmodule AshActivityPlanner.Repo.Migrations.MigrateResources1 do
   @moduledoc """
   Updates resources based on their most recent snapshots.
 
@@ -8,14 +8,16 @@ defmodule AshActivityPlanner.Repo.Migrations.InitialMigration do
   use Ecto.Migration
 
   def up do
-    create table(:posts, primary_key: false) do
+    create table(:activities, primary_key: false) do
       add :id, :uuid, null: false, default: fragment("uuid_generate_v4()"), primary_key: true
-      add :title, :text, null: false
-      add :content, :text
+      add :title, :text
+      add :description, :text
+      add :start_time, :utc_datetime
+      add :end_time, :utc_datetime
     end
   end
 
   def down do
-    drop table(:posts)
+    drop table(:activities)
   end
 end

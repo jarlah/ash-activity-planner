@@ -18,8 +18,6 @@ defmodule AshActivityPlannerWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
-
-    live "/posts", ExampleLiveView
   end
 
   # Other scopes may use custom stacks.
