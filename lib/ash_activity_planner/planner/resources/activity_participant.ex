@@ -22,4 +22,9 @@ defmodule AshActivityPlanner.Planner.ActivityParticipant do
       allow_nil? false
     end
   end
+
+  code_interface do
+    define_for AshActivityPlanner.Planner
+    define :read
+  end
 end
