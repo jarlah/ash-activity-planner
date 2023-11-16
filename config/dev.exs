@@ -5,6 +5,8 @@ if Mix.env() == :dev do
     clear: true
 end
 
+config :testcontainers, enabled: true
+
 # Configure your database
 config :ash_activity_planner, AshActivityPlanner.Repo,
   username: "postgres",

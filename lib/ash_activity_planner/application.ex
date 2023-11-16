@@ -7,12 +7,11 @@ defmodule AshActivityPlanner.Application do
 
   @impl true
   def start(_type, _args) do
-    if Mix.env() in [:dev, :test] do
+    if Application.get_env(:testcontainers, :enabled, false) do
       {:ok, _container} =
         Testcontainers.Ecto.postgres_container(
           app: :ash_activity_planner,
-          persistent_volume_name:
-            if(Mix.env() == :dev, do: "ash_activity_planner_data", else: nil)
+          persistent_volume_name: "ash_activity_planner_data"
         )
     end
 
