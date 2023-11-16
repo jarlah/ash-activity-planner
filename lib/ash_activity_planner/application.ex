@@ -11,14 +11,16 @@ defmodule AshActivityPlanner.Application do
       {:ok, _container} =
         Testcontainers.Ecto.postgres_container(
           app: :ash_activity_planner,
-          persistent_volume_name: if(Mix.env() == :dev, do: "ash_activity_planner_data", else: nil)
+          persistent_volume_name:
+            if(Mix.env() == :dev, do: "ash_activity_planner_data", else: nil)
         )
     end
 
     children = [
       AshActivityPlannerWeb.Telemetry,
       AshActivityPlanner.Repo,
-      {DNSCluster, query: Application.get_env(:ash_activity_planner, :dns_cluster_query) || :ignore},
+      {DNSCluster,
+       query: Application.get_env(:ash_activity_planner, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: AshActivityPlanner.PubSub},
       # Start the Finch HTTP client for sending emails
       {Finch, name: AshActivityPlanner.Finch},

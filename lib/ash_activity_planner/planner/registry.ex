@@ -7,5 +7,7 @@ defmodule AshActivityPlanner.Planner.Registry do
   entries do
     entry AshActivityPlanner.Planner.ActivityGroup
     entry AshActivityPlanner.Planner.Activity
+    entry AshActivityPlanner.Planner.ActivityParticipant
+    entry AshActivityPlanner.Planner.Participant
   end
 end
