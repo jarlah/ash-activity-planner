@@ -20,7 +20,10 @@ defmodule AshActivityPlannerWeb.Router do
   scope "/", AshActivityPlannerWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
+    ash_authentication_live_session :authentication_not_required,
+      on_mount: {AshActivityPlannerWeb.LiveUserAuth, :live_user_optional} do
+      live "/", HomeLive, :index
+    end
 
     sign_in_route(register_path: "/register", reset_path: "/reset")
     sign_out_route AuthController
