@@ -47,7 +47,6 @@ defmodule AshActivityPlanner.Planner.Activity do
     define :create
     define :read
     define :by_id, get_by: [:id], action: :read
-    define :by_name, get_by: [:name], action: :read
     define :update
     define :destroy
   end

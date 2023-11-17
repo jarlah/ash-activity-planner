@@ -18,6 +18,12 @@ defmodule AshActivityPlannerWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+
+    live "/participants", ParticipantLive.Index, :index
+    live "/participants/new", ParticipantLive.Index, :new
+    live "/participants/:id/edit", ParticipantLive.Index, :edit
+    live "/participants/:id", ParticipantLive.Show, :show
+    live "/participants/:id/show/edit", ParticipantLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.

@@ -22,4 +22,13 @@ defmodule AshActivityPlanner.Planner.ActivityGroup do
     attribute :title, :string
     attribute :description, :string
   end
+
+  code_interface do
+    define_for AshActivityPlanner.Planner
+    define :create
+    define :read
+    define :by_id, get_by: [:id], action: :read
+    define :update
+    define :destroy
+  end
 end

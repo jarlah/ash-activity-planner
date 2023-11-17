@@ -43,6 +43,7 @@ defmodule AshActivityPlanner.Planner.Participant do
     define :read
     define :by_id, get_by: [:id], action: :read
     define :by_name, get_by: [:name], action: :read
+    define :by_email, get_by: [:email], action: :read
     define :update
     define :destroy
   end
