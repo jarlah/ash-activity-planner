@@ -12,7 +12,7 @@ config :ash_activity_planner,
   generators: [timestamp_type: :utc_datetime]
 
 config :ash_activity_planner,
-  ash_apis: [AshActivityPlanner.Planner]
+  ash_apis: [AshActivityPlanner.Planner, AshActivityPlanner.Accounts]
 
 # Configures the endpoint
 config :ash_activity_planner, AshActivityPlannerWeb.Endpoint,

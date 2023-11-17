@@ -16,6 +16,7 @@ defmodule AshActivityPlanner.Application do
     end
 
     children = [
+      {AshAuthentication.Supervisor, otp_app: :ash_activity_planner},
       AshActivityPlannerWeb.Telemetry,
       AshActivityPlanner.Repo,
       {DNSCluster,

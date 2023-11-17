@@ -4,8 +4,18 @@ defmodule AshActivityPlannerWeb.ParticipantLiveTest do
   import Phoenix.LiveViewTest
   alias AshActivityPlanner.Planner.Participant
 
-  @create_attrs %{name: "some name", description: "some description", email: "some email", phone: "some phone"}
-  @update_attrs %{name: "some updated name", description: "some updated description", email: "some updated email", phone: "some updated phone"}
+  @create_attrs %{
+    name: "some name",
+    description: "some description",
+    email: "some email",
+    phone: "some phone"
+  }
+  @update_attrs %{
+    name: "some updated name",
+    description: "some updated description",
+    email: "some updated email",
+    phone: "some updated phone"
+  }
   @invalid_attrs %{name: nil, description: nil, email: nil, phone: nil}
 
   defp create_participant(_) do
@@ -72,7 +82,10 @@ defmodule AshActivityPlannerWeb.ParticipantLiveTest do
     test "deletes participant in listing", %{conn: conn, participant: participant} do
       {:ok, index_live, _html} = live(conn, ~p"/participants")
 
-      assert index_live |> element("#participants-#{participant.id} a", "Delete") |> render_click()
+      assert index_live
+             |> element("#participants-#{participant.id} a", "Delete")
+             |> render_click()
+
       refute has_element?(index_live, "#participants-#{participant.id}")
     end
   end

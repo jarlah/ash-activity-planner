@@ -34,6 +34,11 @@ config :ash_activity_planner, AshActivityPlannerWeb.Endpoint,
   watchers: [
     esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]},
     tailwind: {Tailwind, :install_and_run, [:default, ~w(--watch)]}
+  ],
+  authentication: [
+    tokens: [
+      signing_secret: "8tPH+WehmVX6jmc1J+6GD1dw4AiFCEcB+HetVnVs1KENbVKfY9pDYJMDoiVZ6idI"
+    ]
   ]
 
 # ## SSL Support

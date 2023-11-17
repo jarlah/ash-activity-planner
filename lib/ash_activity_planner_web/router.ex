@@ -1,5 +1,6 @@
 defmodule AshActivityPlannerWeb.Router do
   use AshActivityPlannerWeb, :router
+  use AshAuthentication.Phoenix.Router
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -8,10 +9,12 @@ defmodule AshActivityPlannerWeb.Router do
     plug :put_root_layout, html: {AshActivityPlannerWeb.Layouts, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug :load_from_session
   end
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug :load_from_bearer
   end
 
   scope "/", AshActivityPlannerWeb do
@@ -19,23 +22,35 @@ defmodule AshActivityPlannerWeb.Router do
 
     get "/", PageController, :home
 
-    live "/participants", ParticipantLive.Index, :index
-    live "/participants/new", ParticipantLive.Index, :new
-    live "/participants/:id/edit", ParticipantLive.Index, :edit
-    live "/participants/:id", ParticipantLive.Show, :show
-    live "/participants/:id/show/edit", ParticipantLive.Show, :edit
+    sign_in_route(register_path: "/register", reset_path: "/reset")
+    sign_out_route AuthController
+    auth_routes_for AshActivityPlanner.Accounts.User, to: AuthController
+    reset_route []
+  end
 
-    live "/activity_groups", ActivityGroupLive.Index, :index
-    live "/activity_groups/new", ActivityGroupLive.Index, :new
-    live "/activity_groups/:id/edit", ActivityGroupLive.Index, :edit
-    live "/activity_groups/:id", ActivityGroupLive.Show, :show
-    live "/activity_groups/:id/show/edit", ActivityGroupLive.Show, :edit
+  ash_authentication_live_session :authentication_required,
+    on_mount: {AshActivityPlannerWeb.LiveUserAuth, :live_user_required} do
+    scope "/", AshActivityPlannerWeb do
+      pipe_through [:browser]
 
-    live "/activities", ActivityLive.Index, :index
-    live "/activities/new", ActivityLive.Index, :new
-    live "/activities/:id/edit", ActivityLive.Index, :edit
-    live "/activities/:id", ActivityLive.Show, :show
-    live "/activities/:id/show/edit", ActivityLive.Show, :edit
+      live "/participants", ParticipantLive.Index, :index
+      live "/participants/new", ParticipantLive.Index, :new
+      live "/participants/:id/edit", ParticipantLive.Index, :edit
+      live "/participants/:id", ParticipantLive.Show, :show
+      live "/participants/:id/show/edit", ParticipantLive.Show, :edit
+
+      live "/activity_groups", ActivityGroupLive.Index, :index
+      live "/activity_groups/new", ActivityGroupLive.Index, :new
+      live "/activity_groups/:id/edit", ActivityGroupLive.Index, :edit
+      live "/activity_groups/:id", ActivityGroupLive.Show, :show
+      live "/activity_groups/:id/show/edit", ActivityGroupLive.Show, :edit
+
+      live "/activities", ActivityLive.Index, :index
+      live "/activities/new", ActivityLive.Index, :new
+      live "/activities/:id/edit", ActivityLive.Index, :edit
+      live "/activities/:id", ActivityLive.Show, :show
+      live "/activities/:id/show/edit", ActivityLive.Show, :edit
+    end
   end
 
   # Other scopes may use custom stacks.

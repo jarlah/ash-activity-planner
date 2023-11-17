@@ -54,6 +54,8 @@ defmodule AshActivityPlanner.MixProject do
       {:ash, "~> 2.17"},
       {:ash_postgres, "~> 1.3"},
       {:ash_phoenix, "~> 1.2"},
+      {:ash_authentication, "~> 3.11.15"},
+      {:ash_authentication_phoenix, "~> 1.9"},
       {:testcontainers, "~> 1.4.0", only: [:dev, :test]},
       {:mix_test_watch, "~> 1.0", only: [:dev, :test], runtime: false}
     ]
