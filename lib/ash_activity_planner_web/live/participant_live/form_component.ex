@@ -1,8 +1,6 @@
 defmodule AshActivityPlannerWeb.ParticipantLive.FormComponent do
   use AshActivityPlannerWeb, :live_component
 
-  alias AshActivityPlanner.Planner.Participant
-
   @impl true
   def render(assigns) do
     ~H"""
@@ -19,10 +17,30 @@ defmodule AshActivityPlannerWeb.ParticipantLive.FormComponent do
         phx-change="validate"
         phx-submit="save"
       >
-        <.input field={@form[:name]} type="text" label="Name" />
-        <.input field={@form[:email]} type="text" label="Email" />
-        <.input field={@form[:phone]} type="text" label="Phone" />
-        <.input field={@form[:description]} type="text" label="Description" />
+        <%= if @form.source.type == :create do %>
+          <.input field={@form[:activities]} type="select" multiple label="Activities" options={[]} />
+          <.input field={@form[:id]} type="text" label="Id" /><.input
+            field={@form[:email]}
+            type="text"
+            label="Email"
+          /><.input field={@form[:name]} type="text" label="Name" /><.input
+            field={@form[:phone]}
+            type="text"
+            label="Phone"
+          /><.input field={@form[:description]} type="text" label="Description" />
+        <% end %>
+        <%= if @form.source.type == :update do %>
+          <.input field={@form[:id]} type="text" label="Id" /><.input
+            field={@form[:email]}
+            type="text"
+            label="Email"
+          /><.input field={@form[:name]} type="text" label="Name" /><.input
+            field={@form[:phone]}
+            type="text"
+            label="Phone"
+          /><.input field={@form[:description]} type="text" label="Description" />
+        <% end %>
+
         <:actions>
           <.button phx-disable-with="Saving...">Save Participant</.button>
         </:actions>
@@ -32,62 +50,52 @@ defmodule AshActivityPlannerWeb.ParticipantLive.FormComponent do
   end
 
   @impl true
-  def update(%{participant: participant} = assigns, socket) do
-    changeset = Participant.change_participant(participant)
-
+  def update(assigns, socket) do
     {:ok,
      socket
      |> assign(assigns)
-     |> assign_form(changeset)}
+     |> assign_form()}
   end
 
   @impl true
   def handle_event("validate", %{"participant" => participant_params}, socket) do
-    changeset =
-      socket.assigns.participant
-      |> Participant.change_participant(participant_params)
-      |> Map.put(:action, :validate)
-
-    {:noreply, assign_form(socket, changeset)}
+    {:noreply,
+     assign(socket, form: AshPhoenix.Form.validate(socket.assigns.form, participant_params))}
   end
 
   def handle_event("save", %{"participant" => participant_params}, socket) do
-    save_participant(socket, socket.assigns.action, participant_params)
-  end
-
-  defp save_participant(socket, :edit, participant_params) do
-    case Participant.update_participant(socket.assigns.participant, participant_params) do
+    case AshPhoenix.Form.submit(socket.assigns.form, params: participant_params) do
       {:ok, participant} ->
         notify_parent({:saved, participant})
 
-        {:noreply,
-         socket
-         |> put_flash(:info, "Participant updated successfully")
-         |> push_patch(to: socket.assigns.patch)}
+        socket =
+          socket
+          |> put_flash(:info, "Participant #{socket.assigns.form.source.type}d successfully")
+          |> push_patch(to: socket.assigns.patch)
 
-      {:error, %Ecto.Changeset{} = changeset} ->
-        {:noreply, assign_form(socket, changeset)}
+        {:noreply, socket}
+
+      {:error, form} ->
+        {:noreply, assign(socket, form: form)}
     end
-  end
-
-  defp save_participant(socket, :new, participant_params) do
-    case Participant.create_participant(participant_params) do
-      {:ok, participant} ->
-        notify_parent({:saved, participant})
-
-        {:noreply,
-         socket
-         |> put_flash(:info, "Participant created successfully")
-         |> push_patch(to: socket.assigns.patch)}
-
-      {:error, %Ecto.Changeset{} = changeset} ->
-        {:noreply, assign_form(socket, changeset)}
-    end
-  end
-
-  defp assign_form(socket, %Ecto.Changeset{} = changeset) do
-    assign(socket, :form, to_form(changeset))
   end
 
   defp notify_parent(msg), do: send(self(), {__MODULE__, msg})
+
+  defp assign_form(%{assigns: %{participant: participant}} = socket) do
+    form =
+      if participant do
+        AshPhoenix.Form.for_update(participant, :update,
+          api: AshActivityPlanner.Planner,
+          as: "participant"
+        )
+      else
+        AshPhoenix.Form.for_create(AshActivityPlanner.Planner.Participant, :create,
+          api: AshActivityPlanner.Planner,
+          as: "participant"
+        )
+      end
+
+    assign(socket, form: to_form(form))
+  end
 end

@@ -1,15 +1,15 @@
 defmodule AshActivityPlannerWeb.ParticipantLiveTest do
-  use AshActivityPlannerWeb.ConnCase
+  use AshActivityPlannerWeb.ConnCase, async: true
 
   import Phoenix.LiveViewTest
-  import AshActivityPlanner.PlannerFixtures
+  alias AshActivityPlanner.Planner.Participant
 
   @create_attrs %{name: "some name", description: "some description", email: "some email", phone: "some phone"}
   @update_attrs %{name: "some updated name", description: "some updated description", email: "some updated email", phone: "some updated phone"}
   @invalid_attrs %{name: nil, description: nil, email: nil, phone: nil}
 
   defp create_participant(_) do
-    participant = participant_fixture()
+    participant = Participant.create!(%{name: "Test name"})
     %{participant: participant}
   end
 
@@ -33,7 +33,7 @@ defmodule AshActivityPlannerWeb.ParticipantLiveTest do
 
       assert index_live
              |> form("#participant-form", participant: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
+             |> render_change() =~ "is required"
 
       assert index_live
              |> form("#participant-form", participant: @create_attrs)
@@ -56,7 +56,7 @@ defmodule AshActivityPlannerWeb.ParticipantLiveTest do
 
       assert index_live
              |> form("#participant-form", participant: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
+             |> render_change() =~ "is required"
 
       assert index_live
              |> form("#participant-form", participant: @update_attrs)
@@ -97,7 +97,7 @@ defmodule AshActivityPlannerWeb.ParticipantLiveTest do
 
       assert show_live
              |> form("#participant-form", participant: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
+             |> render_change() =~ "is required"
 
       assert show_live
              |> form("#participant-form", participant: @update_attrs)

@@ -31,8 +31,10 @@ defmodule AshActivityPlanner.Planner.Participant do
 
   attributes do
     uuid_primary_key :id
+    attribute :name, :string do
+      allow_nil? false
+    end
     attribute :email, :string
-    attribute :name, :string
     attribute :phone, :string
     attribute :description, :string
   end
