@@ -24,6 +24,18 @@ defmodule AshActivityPlannerWeb.Router do
     live "/participants/:id/edit", ParticipantLive.Index, :edit
     live "/participants/:id", ParticipantLive.Show, :show
     live "/participants/:id/show/edit", ParticipantLive.Show, :edit
+
+    live "/activity_groups", ActivityGroupLive.Index, :index
+    live "/activity_groups/new", ActivityGroupLive.Index, :new
+    live "/activity_groups/:id/edit", ActivityGroupLive.Index, :edit
+    live "/activity_groups/:id", ActivityGroupLive.Show, :show
+    live "/activity_groups/:id/show/edit", ActivityGroupLive.Show, :edit
+
+    live "/activities", ActivityLive.Index, :index
+    live "/activities/new", ActivityLive.Index, :new
+    live "/activities/:id/edit", ActivityLive.Index, :edit
+    live "/activities/:id", ActivityLive.Show, :show
+    live "/activities/:id/show/edit", ActivityLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.
