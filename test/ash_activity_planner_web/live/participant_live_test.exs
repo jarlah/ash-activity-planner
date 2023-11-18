@@ -2,6 +2,7 @@ defmodule AshActivityPlannerWeb.ParticipantLiveTest do
   use AshActivityPlannerWeb.ConnCase, async: true
 
   import Phoenix.LiveViewTest
+
   alias AshActivityPlanner.Planner.Participant
 
   @create_attrs %{

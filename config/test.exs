@@ -1,6 +1,8 @@
 import Config
 
 config :testcontainers, enabled: true
+config :ash, :disable_async?, true
+config :ash, :missed_notifications, :ignore
 
 # Configure your database
 #
