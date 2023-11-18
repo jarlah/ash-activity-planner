@@ -3,7 +3,7 @@ defmodule AshActivityPlanner.Planner do
     extensions: [AshAdmin.Api]
 
   admin do
-    show?(true)
+    show? true
   end
 
   resources do

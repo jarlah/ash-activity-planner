@@ -4,7 +4,7 @@ defmodule AshActivityPlanner.Accounts.User do
     extensions: [AshAuthentication, AshAdmin.Resource]
 
   admin do
-    actor?(true)
+    actor? true
   end
 
   attributes do
