@@ -52,6 +52,7 @@ defmodule AshActivityPlanner.MixProject do
       {:dns_cluster, "~> 0.1.1"},
       {:plug_cowboy, "~> 2.5"},
       {:ash, "~> 2.17"},
+      {:ash_admin, "~> 0.9.8"},
       {:ash_postgres, "~> 1.3"},
       {:ash_phoenix, "~> 1.2"},
       {:ash_authentication, "~> 3.11.15"},
