@@ -31,6 +31,20 @@ defmodule AshActivityPlanner.Planner.Activity do
                on_no_match: :create
              )
     end
+
+    read :next_two_days do
+      now = Timex.now()
+      start_time = now
+      end_time = Timex.shift(now, days: +2)
+      filter expr(start_time >= ^start_time and end_time <= ^end_time)
+    end
+
+    read :last_two_days do
+      now = Timex.now()
+      start_time = Timex.shift(now, days: -2)
+      end_time = now
+      filter expr(start_time >= ^start_time and end_time <= ^end_time)
+    end
   end
 
   attributes do
@@ -49,5 +63,7 @@ defmodule AshActivityPlanner.Planner.Activity do
     define :by_id, get_by: [:id], action: :read
     define :update
     define :destroy
+    define :last_two_days
+    define :next_two_days
   end
 end
