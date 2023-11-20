@@ -58,7 +58,7 @@ defmodule AshActivityPlanner.MixProject do
       {:ash_authentication, "~> 3.11.15"},
       {:ash_authentication_phoenix, "~> 1.9"},
       {:timex, "~> 3.7"},
-      {:testcontainers, "~> 1.4.0", only: [:dev, :test]},
+      {:testcontainers, "~> 1.4.1", only: [:dev, :test]},
       {:mix_test_watch, "~> 1.0", only: [:dev, :test], runtime: false}
     ]
   end
