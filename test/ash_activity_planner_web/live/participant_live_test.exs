@@ -5,6 +5,19 @@ defmodule AshActivityPlannerWeb.ParticipantLiveTest do
 
   alias AshActivityPlanner.Planner.Participant
 
+  setup %{conn: conn} do
+    user =
+      AshActivityPlanner.Accounts.User
+      |> Ash.Changeset.for_create(:register_with_password, %{
+        email: "test@user.com",
+        password: "password",
+        password_confirmation: "password"
+      })
+      |> AshActivityPlanner.Accounts.create!()
+
+    {:ok, %{conn: log_in_user_as_subject(conn, user)}}
+  end
+
   @create_attrs %{
     name: "some name",
     description: "some description",
@@ -123,5 +136,13 @@ defmodule AshActivityPlannerWeb.ParticipantLiveTest do
       assert html =~ "Participant updated successfully"
       assert html =~ "some updated name"
     end
+  end
+
+  defp log_in_user_as_subject(conn, user) do
+    subject = AshAuthentication.user_to_subject(user)
+
+    conn
+    |> Phoenix.ConnTest.init_test_session(%{})
+    |> Plug.Conn.put_session("user", subject)
   end
 end
