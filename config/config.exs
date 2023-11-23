@@ -9,9 +9,7 @@ import Config
 
 config :ash_activity_planner,
   ecto_repos: [AshActivityPlanner.Repo],
-  generators: [timestamp_type: :utc_datetime]
-
-config :ash_activity_planner,
+  generators: [timestamp_type: :utc_datetime],
   ash_apis: [AshActivityPlanner.Planner, AshActivityPlanner.Accounts]
 
 # Configures the endpoint

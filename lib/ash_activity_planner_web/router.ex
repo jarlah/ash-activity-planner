@@ -18,11 +18,6 @@ defmodule AshActivityPlannerWeb.Router do
     plug :load_from_bearer
   end
 
-  scope "/" do
-    pipe_through [:browser]
-    ash_admin("/admin")
-  end
-
   scope "/", AshActivityPlannerWeb do
     pipe_through :browser
 
@@ -81,6 +76,13 @@ defmodule AshActivityPlannerWeb.Router do
 
       live_dashboard "/dashboard", metrics: AshActivityPlannerWeb.Telemetry
       forward "/mailbox", Plug.Swoosh.MailboxPreview
+    end
+
+    # ash admin
+    scope "/" do
+      pipe_through [:browser]
+
+      ash_admin("/admin")
     end
   end
 end

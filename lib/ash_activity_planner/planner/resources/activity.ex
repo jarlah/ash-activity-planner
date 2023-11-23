@@ -33,17 +33,18 @@ defmodule AshActivityPlanner.Planner.Activity do
     end
 
     read :next_two_days do
-      now = Timex.now()
-      start_time = now
-      end_time = Timex.shift(now, days: +2)
-      filter expr(start_time >= ^start_time and end_time <= ^end_time)
+      filter expr(in_date_range(datetime: expr(from_now(2, :day))))
     end
 
     read :last_two_days do
-      now = Timex.now()
-      start_time = Timex.shift(now, days: -2)
-      end_time = now
-      filter expr(start_time >= ^start_time and end_time <= ^end_time)
+      filter expr(in_date_range(datetime: expr(ago(2, :day))))
+    end
+  end
+
+  calculations do
+    calculate :in_date_range, :boolean, expr(start_time <= ^arg(:datetime) and end_time >= ^arg(:datetime)) do
+      private? true
+      argument :datetime, :datetime, allow_expr?: true
     end
   end
 
